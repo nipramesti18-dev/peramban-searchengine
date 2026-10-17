@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MPI Informatika Kelas VII — Peramban dan Search Engine</title>
+<style>
+:root{--navy:#16324f;--blue:#247ba0;--cyan:#70c1b3;--yellow:#ffe066;--coral:#f25f5c;--cream:#f7f9fc;--ink:#1f2937;--green:#2e8b57}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#e8f7ff,#fff8dc);font-family:Arial,Helvetica,sans-serif;color:var(--ink);font-size:17px;line-height:1.5}
+button,input,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:11px 16px;font-weight:700;background:var(--blue);color:#fff}button:disabled{opacity:.4;cursor:not-allowed}button:hover:not(:disabled){filter:brightness(.95)}button.secondary{background:#e8eef5;color:var(--navy)}button.accent{background:var(--coral)}button.good{background:var(--green)}
+header{background:var(--navy);color:#fff;padding:14px 5%;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}header strong{font-size:1.1rem}.pill{background:var(--yellow);color:var(--navy);border-radius:999px;padding:5px 12px;font-size:.85rem;font-weight:bold}
+main{max-width:1000px;margin:22px auto;padding:0 16px 30px}.progress-wrap{display:flex;align-items:center;gap:12px;margin-bottom:14px}.progress{height:10px;background:#dce7ef;border-radius:20px;overflow:hidden;flex:1}.progress div{height:100%;background:var(--cyan);width:12.5%;transition:width .3s}.screen{display:none;background:#fff;border-radius:22px;padding:clamp(18px,4vw,34px);box-shadow:0 10px 30px #16324f14;min-height:480px}.screen.active{display:block}h1,h2,h3{color:var(--navy);line-height:1.2}h1{font-size:clamp(1.8rem,4vw,2.7rem)}h2{font-size:clamp(1.4rem,3vw,2rem)}h3{font-size:1.15rem}.lead{font-size:1.12rem}.muted{color:#526273}.callout{padding:15px 18px;border-radius:14px;background:#e9f8f5;border-left:5px solid var(--cyan);margin:16px 0}.yellow{background:#fff6cf;border-left-color:var(--yellow)}.choices{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}.choices button{background:#edf4fb;color:var(--navy);border:2px solid #d5e4ef}.choices button.selected{background:var(--navy);color:white;border-color:var(--navy)}.feedback{margin:12px 0;padding:12px 14px;border-radius:12px;background:#f0f8f2;border:1px solid #b6dfc2}.feedback.error{background:#fff0ef;border-color:#f5c0bc}.nav{display:flex;justify-content:space-between;gap:12px;margin-top:20px}.browser{border:3px solid #cbd9e5;border-radius:16px;overflow:hidden;margin:20px 0;background:#f6f9fc}.browser-top{background:#e6edf4;padding:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}.dot{width:12px;height:12px;border-radius:50%;background:#f25f5c;display:inline-block}.address{background:white;border:1px solid #cbd5e1;border-radius:20px;padding:7px 14px;flex:1;min-width:140px;color:#526273}.hotspot{background:#fff;color:var(--navy);border:2px solid #b9d4e5;padding:7px 11px}.hotspot.opened{background:#d9f5e6;border-color:#61b68a}.browser-page{text-align:center;padding:25px 10px}.browser-page .fake-logo{font-size:2rem;font-weight:800;color:var(--blue)}.browser-page p{margin:6px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:13px;margin:18px 0}.flip-card{min-height:135px;perspective:700px}.flip-card button{width:100%;height:100%;min-height:135px;background:#e9f5ff;color:var(--navy);border:2px solid #b9dff0;text-align:left}.flip-card button.flipped{background:#fff6cf;border-color:#f1d56a}.flip-card strong{display:block;font-size:1.15rem;margin-bottom:8px}.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:15px}.dropzone{padding:14px;border:2px dashed #91b5ca;border-radius:15px;min-height:145px;background:#f6fbff}.dropzone h3{margin-top:0}.wordbank{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}.word{background:#fff0cf;color:#583e00;border:2px solid #f1d56a;padding:8px 12px;border-radius:10px;touch-action:manipulation}.word.chosen{outline:3px solid var(--blue)}.word.placed{opacity:.45}.table-wrap{overflow-x:auto}table{border-collapse:collapse;width:100%;margin:15px 0}th,td{border:1px solid #d7e1e8;padding:10px;text-align:left}th{background:#e8f4fa;color:var(--navy)}input[type=text],textarea{width:100%;padding:11px;border:2px solid #cbd9e5;border-radius:10px;margin:5px 0 12px}textarea{min-height:80px;resize:vertical}.search-demo{background:#f6f9fc;border:1px solid #d9e4ec;border-radius:14px;padding:14px}.result-number{font-size:1.15rem;color:var(--blue);font-weight:800}.case{border:1px solid #d8e3ea;padding:14px;border-radius:14px;margin:12px 0}.case label{display:block;padding:7px}.quiz-option{display:block;width:100%;text-align:left;margin:8px 0;background:#edf4fb;color:var(--navy);border:2px solid #d5e4ef}.quiz-option.chosen{border-color:var(--blue);background:#dff4ff}.small{font-size:.9rem}.hide{display:none!important}.badge{display:inline-block;border-radius:8px;background:#e5f7ed;color:#20633c;padding:3px 8px;font-weight:bold;font-size:.85rem}footer{text-align:center;color:#5d6b78;padding:12px;font-size:.85rem}@media(max-width:560px){body{font-size:16px}header{padding:12px 16px}.screen{min-height:0}.nav button{padding:10px 12px}.browser-top{gap:6px}.hotspot{padding:7px 9px}}
+</style>
+</head>
+<body>
+<header><strong>🧭 MPI Informatika • Kelas VII</strong><span class="pill">Fase D · Bab 3 · Materi C</span></header>
+<main>
+<div class="progress-wrap"><strong id="screenLabel">Layar 1 dari 8</strong><div class="progress"><div id="progressBar"></div></div><span id="percent">13%</span></div>
+
+<section class="screen active" data-screen="0">
+<h1>Jelajah Internet dengan Cerdas! 🌐</h1>
+<p class="lead">Peramban dan Search Engine — Teknologi Informasi dan Komunikasi</p>
+<div class="callout"><h3>Tujuan pembelajaran</h3><ul><li>Menjelaskan fungsi tombol peramban.</li><li>Mengenali mesin pencari dan membedakannya dari peramban.</li><li>Menyusun kata kunci yang spesifik.</li><li>Memilih informasi yang kredibel dan mengenali hoaks.</li></ul></div>
+<h2>Pertanyaan pemantik</h2><p><strong>“Kalau mau mencari informasi di internet, kamu membuka apa dulu?”</strong></p>
+<div class="choices" id="introChoices"><button data-choice="Peramban">Peramban</button><button data-choice="Mesin pencari">Mesin pencari</button><button data-choice="Tidak tahu">Tidak tahu</button></div>
+<div id="introFeedback" class="feedback hide">Terima kasih sudah menjawab! Mari kita cari tahu!</div>
+<div class="nav"><span></span><button id="introNext" disabled onclick="go(1)">Lanjut →</button></div>
+</section>
+
+<section class="screen" data-screen="1">
+<h2>Materi 1 — Mengenal Peramban 🧭</h2>
+<p class="lead"><strong>Peramban</strong> adalah aplikasi untuk mengakses informasi di internet.</p>
+<p>Contoh peramban: <strong>Google Chrome, Microsoft Edge, Firefox,</strong> dan <strong>Safari</strong>.</p>
+<div class="browser">
+<div class="browser-top"><span class="dot"></span><span class="dot" style="background:#ffe066"></span><span class="dot" style="background:#70c1b3"></span><span class="address">🔒 https://contoh.situs.id</span>
+<button class="hotspot" data-hot="Back">← Back</button><button class="hotspot" data-hot="Forward">→ Forward</button><button class="hotspot" data-hot="Stop">■ Stop</button><button class="hotspot" data-hot="Refresh">↻ Refresh</button><button class="hotspot" data-hot="Bookmark">☆ Bookmark</button></div>
+<div class="browser-page"><div class="fake-logo">WEB</div><p>Contoh tampilan halaman web</p><p class="muted small">Klik semua tombol di bagian atas untuk mengenali fungsinya.</p></div></div>
+<div id="hotFeedback" class="callout yellow">Pilih salah satu tombol peramban untuk melihat penjelasannya.</div>
+<p><strong>Tombol yang sudah dipelajari:</strong> <span id="hotCount">0 dari 5</span></p>
+<div class="nav"><button class="secondary" onclick="go(0)">← Kembali</button><button id="browserNext" disabled onclick="go(2)">Lanjut →</button></div>
+</section>
+
+<section class="screen" data-screen="2">
+<h2>Materi 2 — Mengenal Mesin Pencari 🔎</h2>
+<p><strong>Mesin pencari</strong> adalah situs web yang mengumpulkan dan menata informasi di internet agar bisa dicari. Algoritmanya membantu menampilkan hasil yang paling relevan dengan kata kunci.</p>
+<p>Klik kartu untuk membaliknya dan membaca keterangan.</p>
+<div class="grid">
+<div class="flip-card"><button onclick="flip(this,'Google','Mesin pencari yang membantu menemukan halaman web, gambar, video, dan informasi lain.')"><strong>🌈 Google</strong><span>Klik untuk membalik</span></button></div>
+<div class="flip-card"><button onclick="flip(this,'Bing','Mesin pencari yang dikembangkan oleh Microsoft.')"><strong>🔷 Bing</strong><span>Klik untuk membalik</span></button></div>
+<div class="flip-card"><button onclick="flip(this,'Baidu','Mesin pencari yang banyak digunakan di Tiongkok.')"><strong>🐼 Baidu</strong><span>Klik untuk membalik</span></button></div>
+<div class="flip-card"><button onclick="flip(this,'Yahoo!','Layanan web yang menyediakan pencarian dan layanan informasi lainnya.')"><strong>🟣 Yahoo!</strong><span>Klik untuk membalik</span></button></div>
+<div class="flip-card"><button onclick="flip(this,'Yandex','Mesin pencari yang dikembangkan oleh perusahaan teknologi Yandex.')"><strong>🔴 Yandex</strong><span>Klik untuk membalik</span></button></div>
+</div>
+<div class="callout yellow"><strong>💡 Tahukah kamu?</strong><p>PageRank adalah algoritma Google untuk membantu mengurutkan halaman web. Namanya diambil dari nama Larry Page, salah satu pendiri Google.</p></div>
+<p class="small muted">Catatan: kartu ini menjelaskan contoh mesin pencari, bukan peringkat kualitasnya.</p>
+<div class="nav"><button class="secondary" onclick="go(1)">← Kembali</button><button onclick="go(3)">Lanjut →</button></div>
+</section>
+
+<section class="screen" data-screen="3">
+<h2>Materi 3 — Peramban atau Mesin Pencari?</h2>
+<p>Ketuk nama, lalu ketuk kolom tujuan. Di laptop, kamu juga bisa menyeret nama ke kolom. Kelompokkan semua nama berikut.</p>
+<div class="wordbank" id="wordbank"></div>
+<div class="cols">
+<div class="dropzone" data-kind="Peramban" ondragover="event.preventDefault()" ondrop="dropWord(event,'Peramban')"><h3>🧭 Peramban</h3><div id="browserWords"></div></div>
+<div class="dropzone" data-kind="Mesin Pencari" ondragover="event.preventDefault()" ondrop="dropWord(event,'Mesin Pencari')"><h3>🔎 Mesin Pencari</h3><div id="searchWords"></div></div>
+</div>
+<div class="choices"><button onclick="checkSort()">Periksa jawaban</button><button class="secondary" onclick="resetSort()">Atur ulang</button></div>
+<div id="sortFeedback" class="feedback hide"></div><div id="sortTable" class="hide table-wrap"><h3>Ringkasan perbedaan</h3><table><tr><th>Peramban</th><th>Mesin pencari</th></tr><tr><td>Aplikasi untuk membuka dan menampilkan halaman web.</td><td>Situs/layanan untuk menemukan informasi di internet.</td></tr><tr><td>Contoh: Chrome, Edge, Firefox, Safari.</td><td>Contoh: Google, Bing, Yandex.</td></tr></table></div>
+<div class="nav"><button class="secondary" onclick="go(2)">← Kembali</button><button id="sortNext" disabled onclick="go(4)">Lanjut →</button></div>
+</section>
+
+<section class="screen" data-screen="4">
+<h2>Materi 4 — Kata Kunci yang Tepat 🎯</h2>
+<div class="callout"><strong>Kata kunci spesifik</strong> membantu mendapatkan hasil yang lebih sesuai. Gunakan kata inti tanpa awalan atau imbuhan jika sesuai dengan maksud pencarian.</div>
+<ul><li><strong>Tanda petik</strong> (“ ”) membuat pencarian lebih spesifik pada mesin pencari tertentu.</li><li><strong>AND</strong>: mencari hasil yang memuat kedua kata/konsep.</li><li><strong>OR</strong>: mencari hasil yang memuat salah satu kata/konsep.</li></ul>
+<div class="callout yellow small">Catatan: operator dan tanda petik hanya berlaku pada mesin pencari tertentu. Jumlah hasil dapat berubah dari waktu ke waktu.</div>
+<h3>Simulasi A — Bandingkan pencarian</h3>
+<p>Tekan Cari pada tiap contoh. Angka berikut merupakan ilustrasi dari buku siswa, bukan jumlah hasil langsung saat ini.</p>
+<div class="grid">
+<div class="search-demo"><label for="q1">Kata kunci 1</label><input id="q1" type="text" value="Covid-19" readonly><button onclick="showResult(1)">Cari</button><p id="r1" class="result-number"></p></div>
+<div class="search-demo"><label for="q2">Kata kunci 2</label><input id="q2" type="text" value='"Covid-19"' readonly><button onclick="showResult(2)">Cari</button><p id="r2" class="result-number"></p></div>
+<div class="search-demo"><label for="q3">Kata kunci 3</label><input id="q3" type="text" value='"Apa itu COVID-19?"' readonly><button onclick="showResult(3)">Cari</button><p id="r3" class="result-number"></p></div>
+</div>
+<h3>Simulasi B — Pilih kata kunci paling spesifik</h3>
+<div class="case"><p><strong>1.</strong> Kamu ingin mencari sejarah berdirinya Candi Borobudur. Pilih kata kunci terbaik.</p><div class="choices" data-question="kw1"><button data-val="a">Candi</button><button data-val="b">Sejarah berdirinya Candi Borobudur</button><button data-val="c">Tempat wisata</button></div><div id="kw1fb" class="small"></div></div>
+<div class="case"><p><strong>2.</strong> Kamu ingin mengetahui cara merawat tanaman cabai di rumah.</p><div class="choices" data-question="kw2"><button data-val="a">Tanaman</button><button data-val="b">Cara merawat tanaman cabai di rumah</button><button data-val="c">Rumah</button></div><div id="kw2fb" class="small"></div></div>
+<div class="case"><p><strong>3.</strong> Kamu ingin mencari manfaat membaca buku bagi siswa SMP.</p><div class="choices" data-question="kw3"><button data-val="a">Buku</button><button data-val="b">Manfaat membaca buku bagi siswa SMP</button><button data-val="c">Membaca</button></div><div id="kw3fb" class="small"></div></div>
+<h3>Simulasi C — AND atau OR?</h3>
+<div class="case"><p><strong>4.</strong> Kamu ingin hasil yang memuat kata “lingkungan” dan “sekolah” sekaligus.</p><div class="choices" data-question="op1"><button data-val="AND">AND</button><button data-val="OR">OR</button></div><div id="op1fb" class="small"></div></div>
+<div class="case"><p><strong>5.</strong> Kamu ingin mencari informasi tentang kucing atau anjing, salah satu saja juga boleh.</p><div class="choices" data-question="op2"><button data-val="AND">AND</button><button data-val="OR">OR</button></div><div id="op2fb" class="small"></div></div>
+<div class="nav"><button class="secondary" onclick="go(3)">← Kembali</button><button onclick="go(5)">Lanjut →</button></div>
+</section>
+
+<section class="screen" data-screen="5">
+<h2>Materi 5 — Waspada Hoaks 🛡️</h2>
+<p>Di era <strong>web 2.0</strong>, siapa pun bisa membuat dan membagikan konten. Karena itu, kita perlu waspada terhadap hoaks atau informasi palsu. Informasi yang benar biasanya dapat ditelusuri ke institusi resmi dan situs web resmi.</p>
+<div class="callout yellow"><strong>Ingat sebelum percaya:</strong> periksa alamat situs, siapa penerbitnya, apakah ada sumber/rujukan, dan apakah informasi serupa dikonfirmasi sumber resmi.</div>
+<h3>Studi kasus: Mana situs yang kredibel?</h3>
+<p>Kamu menemukan tiga hasil berikut. Pilih yang paling kredibel, lalu tuliskan alasanmu.</p>
+<div class="case"><label><input type="radio" name="cred" value="a"> <strong>A. Situs resmi instansi</strong> — informasi mencantumkan nama instansi, tanggal, dan rujukan.</label></div>
+<div class="case"><label><input type="radio" name="cred" value="b"> <strong>B. Blog pribadi tanpa sumber</strong> — klaim besar, penulis tidak jelas, dan tidak ada rujukan.</label></div>
+<div class="case"><label><input type="radio" name="cred" value="c"> <strong>C. Pesan berantai</strong> — meminta segera disebarkan dan tidak mencantumkan sumber.</label></div>
+<label for="credReason"><strong>Alasanku:</strong></label><textarea id="credReason" placeholder="Contoh: karena penerbitnya jelas dan informasinya memiliki rujukan..."></textarea>
+<button onclick="checkCred()">Periksa jawaban</button><div id="credFeedback" class="feedback hide"></div>
+<div class="nav"><button class="secondary" onclick="go(4)">← Kembali</button><button onclick="go(6)">Lanjut →</button></div>
+</section>
+
+<section class="screen" data-screen="6">
+<h2>Evaluasi — Uji Pemahamanmu! ⭐</h2>
+<p>Jawab 8 soal berikut. Umpan balik muncul setelah kamu memeriksa setiap jawaban.</p>
+<div id="quizArea"></div>
+<div class="choices"><button id="checkQuizBtn" onclick="checkQuizAnswer()">Periksa jawaban</button><button class="secondary" id="nextQuizBtn" onclick="nextQuiz()" disabled>Soal berikutnya →</button></div>
+<div id="quizFeedback" class="feedback hide"></div>
+<div id="quizResult" class="callout hide"></div>
+<div class="choices hide" id="quizRestart"><button onclick="startQuiz()">Ulangi</button></div>
+<div class="nav"><button class="secondary" onclick="go(5)">← Kembali</button><button id="quizFinish" disabled onclick="go(7)">Lanjut ke refleksi →</button></div>
+</section>
+
+<section class="screen" data-screen="7">
+<h2>Refleksi dan Penutup 🌟</h2>
+<p>Isi refleksi singkat berikut. Jawabanmu membantu merencanakan cara belajar berikutnya.</p>
+<label for="ref1"><strong>1. Hal baru yang kupelajari</strong></label><textarea id="ref1" placeholder="Hari ini aku belajar..."></textarea>
+<label for="ref2"><strong>2. Bagian yang masih sulit</strong></label><textarea id="ref2" placeholder="Bagian yang masih perlu kupelajari..."></textarea>
+<label for="ref3"><strong>3. Rencanaku saat mencari informasi di internet</strong></label><textarea id="ref3" placeholder="Saat mencari informasi, aku akan..."></textarea>
+<div class="callout"><h3>Ringkasan 3 poin utama</h3><ol><li>Peramban digunakan untuk membuka halaman web, sedangkan mesin pencari membantu menemukan informasi.</li><li>Kata kunci yang spesifik membantu pencarian lebih terarah; operator dan tanda petik bergantung pada mesin pencari.</li><li>Periksa sumber, penerbit, dan rujukan sebelum mempercayai atau membagikan informasi.</li></ol></div>
+<p class="small muted"><strong>Sumber:</strong> Buku Siswa Informatika SMP Kelas VII, Kemendikbudristek, 2021.</p>
+<div class="choices"><button onclick="restartAll()">↻ Mulai dari Awal</button><button class="secondary" onclick="saveReflection()">Simpan refleksi sebagai teks</button></div><div id="reflectionFeedback" class="feedback hide"></div>
+<div class="nav"><button class="secondary" onclick="go(6)">← Kembali</button><span></span></div>
+</section>
+</main><footer>Belajar aman, teliti, dan cerdas di internet • MPI Informatika Kelas VII</footer>
+<script>
+const screens=[...document.querySelectorAll('.screen')];let current=0;
+function go(n){if(n<0||n>7)return;current=n;screens.forEach((s,i)=>s.classList.toggle('active',i===n));document.getElementById('screenLabel').textContent=`Layar ${n+1} dari 8`;document.getElementById('progressBar').style.width=((n+1)/8*100)+'%';document.getElementById('percent').textContent=Math.round((n+1)/8*100)+'%';window.scrollTo({top:0,behavior:'smooth'});}
+document.querySelectorAll('#introChoices button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#introChoices button').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');document.getElementById('introFeedback').classList.remove('hide');document.getElementById('introNext').disabled=false;});
+const hotInfo={Back:'Kembali ke halaman yang dibuka sebelumnya.',Forward:'Maju ke halaman berikutnya yang pernah dibuka setelah menekan Back.',Stop:'Menghentikan proses pengambilan atau pemuatan data halaman.',Refresh:'Memuat ulang halaman, misalnya untuk melihat data yang diperbarui.',Bookmark:'Menandai halaman agar mudah dikunjungi lagi, seperti pembatas buku.'};let opened=new Set();
+document.querySelectorAll('[data-hot]').forEach(b=>b.onclick=()=>{let k=b.dataset.hot;opened.add(k);b.classList.add('opened');document.getElementById('hotFeedback').innerHTML='<strong>'+k+':</strong> '+hotInfo[k];document.getElementById('hotCount').textContent=opened.size+' dari 5';document.getElementById('browserNext').disabled=opened.size!==5;});
+function flip(btn,title,desc){btn.classList.toggle('flipped');btn.innerHTML=btn.classList.contains('flipped')?'<strong>'+title+'</strong><span>'+desc+'</span>':'<strong>'+title+'</strong><span>Klik untuk membalik</span>';}
+const items=[['Chrome','Peramban'],['Edge','Peramban'],['Firefox','Peramban'],['Safari','Peramban'],['Google','Mesin Pencari'],['Bing','Mesin Pencari'],['Yandex','Mesin Pencari']];let placements={},chosenWord=null,sortChecked=false;
+function renderSort(){let bank=document.getElementById('wordbank');bank.innerHTML='';items.forEach(([name,kind])=>{if(placements[name])return;let b=document.createElement('button');b.className='word';b.textContent=name;b.draggable=true;b.onclick=()=>{chosenWord=name;document.querySelectorAll('.word').forEach(x=>x.classList.remove('chosen'));b.classList.add('chosen');};b.ondragstart=e=>{e.dataTransfer.setData('text/plain',name);};bank.appendChild(b);});for(let kind of ['Peramban','Mesin Pencari']){let target=document.getElementById(kind==='Peramban'?'browserWords':'searchWords');target.innerHTML='';items.filter(([name])=>placements[name]===kind).forEach(([name])=>{let b=document.createElement('button');b.className='word';b.textContent=name;b.title='Ketuk untuk memindahkan';b.onclick=()=>{delete placements[name];renderSort();};target.appendChild(b);});}}
+function placeWord(name,kind){if(!items.some(x=>x[0]===name))return;placements[name]=kind;chosenWord=null;renderSort();}
+document.querySelectorAll('.dropzone').forEach(z=>z.onclick=e=>{if(chosenWord)placeWord(chosenWord,z.dataset.kind);});function dropWord(e,kind){e.preventDefault();placeWord(e.dataTransfer.getData('text/plain'),kind);}
+function checkSort(){let placed=items.every(([n])=>placements[n]);let score=items.filter(([n,k])=>placements[n]===k).length;let fb=document.getElementById('sortFeedback');fb.classList.remove('hide');fb.className='feedback'+(score===7?'':' error');fb.textContent=placed?`Skor: ${score}/7. `+(score===7?'Hebat! Semua kelompok benar.':'Periksa kembali nama yang salah. Ketuk nama di kolom untuk memindahkannya.'):'Kelompokkan semua 7 nama terlebih dahulu.';document.getElementById('sortTable').classList.toggle('hide',!placed);document.getElementById('sortNext').disabled=!(placed&&score===7);sortChecked=true;}
+function resetSort(){placements={};sortChecked=false;renderSort();document.getElementById('sortFeedback').classList.add('hide');document.getElementById('sortTable').classList.add('hide');document.getElementById('sortNext').disabled=true;}renderSort();
+const results={1:'Sekitar 6,72 miliar hasil',2:'Sekitar 5,04 miliar hasil',3:'Sekitar 54 ribu tautan'};function showResult(n){document.getElementById('r'+n).textContent=results[n];}
+const answers={kw1:'b',kw2:'b',kw3:'b',op1:'AND',op2:'OR'};const explanations={kw1:'Benar! Frasa ini menyebut topik yang jelas dan spesifik.',kw2:'Benar! Kata kunci menyebut tindakan, objek, dan konteks.',kw3:'Benar! Kata kunci menyebut manfaat, kegiatan, dan sasaran.',op1:'Benar! AND digunakan ketika kedua konsep ingin ditemukan sekaligus.',op2:'Benar! OR digunakan jika salah satu kata/konsep sudah sesuai.'};
+document.querySelectorAll('[data-question]').forEach(group=>group.querySelectorAll('button').forEach(b=>b.onclick=()=>{group.querySelectorAll('button').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');let key=group.dataset.question;let fb=document.getElementById(key+'fb');if(b.dataset.val===answers[key]){fb.textContent=explanations[key];fb.style.color='#20633c';}else{fb.textContent='Belum tepat. Coba pikirkan kata kunci yang paling spesifik atau tujuan operatornya.';fb.style.color='#b42318';}}));
+function checkCred(){let chosen=document.querySelector('input[name="cred"]:checked'),reason=document.getElementById('credReason').value.trim(),fb=document.getElementById('credFeedback');fb.classList.remove('hide');if(!chosen){fb.className='feedback error';fb.textContent='Pilih salah satu hasil pencarian terlebih dahulu.';return;}if(chosen.value==='a'){fb.className='feedback';fb.innerHTML='<strong>Tepat!</strong> Situs resmi instansi dengan identitas dan rujukan yang jelas lebih layak dipercaya. '+(reason?'Alasanmu: '+reason:'Tambahkan alasanmu agar pertimbanganmu lebih lengkap.');}else{fb.className='feedback error';fb.innerHTML='<strong>Belum tepat.</strong> Blog tanpa sumber dan pesan berantai sulit diverifikasi. Utamakan sumber resmi dan periksa rujukannya.';}}
+const quiz=[
+{q:'Aplikasi untuk membuka dan menampilkan halaman web disebut…',opts:['Mesin pencari','Peramban','Kata kunci','Bookmark'],a:1,why:'Peramban adalah aplikasi untuk mengakses informasi di internet.',type:'pg'},
+{q:'Tombol yang menandai halaman agar mudah dikunjungi lagi adalah…',opts:['Stop','Forward','Bookmark','Refresh'],a:2,why:'Bookmark berfungsi seperti pembatas buku digital.',type:'pg'},
+{q:'Google dan Bing termasuk…',opts:['Peramban','Sistem operasi','Mesin pencari','Address bar'],a:2,why:'Google dan Bing membantu menemukan informasi di internet.',type:'pg'},
+{q:'Pasangkan kategori: Firefox adalah…',opts:['Peramban','Mesin pencari','Keduanya','Bukan keduanya'],a:0,why:'Firefox adalah aplikasi peramban.',type:'match'},
+{q:'Kata kunci “sejarah berdirinya Candi Borobudur” lebih spesifik daripada “Candi”.',opts:['Benar','Salah'],a:0,why:'Frasa yang lebih rinci mengarahkan pencarian ke topik tertentu.',type:'tf'},
+{q:'Operator AND digunakan jika ingin menemukan salah satu dari dua kata saja.',opts:['Benar','Salah'],a:1,why:'AND menggabungkan dua konsep; OR digunakan jika salah satu kata sudah sesuai.',type:'tf'},
+{q:'Informasi dari pesan berantai tanpa sumber sebaiknya langsung dipercaya.',opts:['Benar','Salah'],a:1,why:'Pesan berantai tanpa sumber perlu diperiksa dan dibandingkan dengan sumber resmi.',type:'tf'},
+{q:'Tindakan paling baik saat memeriksa kredibilitas informasi adalah…',opts:['Langsung membagikan','Memeriksa penerbit, sumber, dan rujukan','Percaya pada judul saja','Mengikuti jumlah emoji'],a:1,why:'Penerbit, rujukan, dan konfirmasi dari sumber tepercaya membantu menilai kredibilitas.',type:'pg'}
+];let qi=0,quizAnswers=Array(quiz.length).fill(null),quizChecked=Array(quiz.length).fill(false);
+function startQuiz(){qi=0;quizAnswers=Array(quiz.length).fill(null);quizChecked=Array(quiz.length).fill(false);document.getElementById('quizResult').classList.add('hide');document.getElementById('quizRestart').classList.add('hide');document.getElementById('quizFinish').disabled=true;renderQuiz();}
+function renderQuiz(){let q=quiz[qi],area=document.getElementById('quizArea');area.innerHTML=`<div class="case"><span class="badge">Soal ${qi+1} dari ${quiz.length}</span><h3>${q.q}</h3><div id="quizOptions"></div></div>`;let box=document.getElementById('quizOptions');q.opts.forEach((o,i)=>{let b=document.createElement('button');b.className='quiz-option'+(quizAnswers[qi]===i?' chosen':'');b.textContent=String.fromCharCode(65+i)+'. '+o;b.disabled=quizChecked[qi];b.onclick=()=>{quizAnswers[qi]=i;renderQuiz();};box.appendChild(b);});document.getElementById('quizFeedback').classList.add('hide');document.getElementById('checkQuizBtn').disabled=quizChecked[qi]||quizAnswers[qi]===null;document.getElementById('nextQuizBtn').disabled=!quizChecked[qi]||qi===quiz.length-1;document.getElementById('nextQuizBtn').textContent=qi===quiz.length-1?'Lihat hasil':'Soal berikutnya →';}
+function checkQuizAnswer(){if(quizAnswers[qi]===null)return;quizChecked[qi]=true;let q=quiz[qi],ok=quizAnswers[qi]===q.a,fb=document.getElementById('quizFeedback');fb.classList.remove('hide');fb.className='feedback'+(ok?'':' error');fb.innerHTML=(ok?'<strong>Benar!</strong> ':'<strong>Belum tepat.</strong> ')+q.why;renderQuiz();fb.classList.remove('hide');fb.className='feedback'+(ok?'':' error');fb.innerHTML=(ok?'<strong>Benar!</strong> ':'<strong>Belum tepat.</strong> ')+q.why;if(qi===quiz.length-1){document.getElementById('nextQuizBtn').disabled=false;document.getElementById('nextQuizBtn').textContent='Lihat hasil';}}
+function nextQuiz(){if(qi<quiz.length-1){qi++;renderQuiz();}else{showQuizResult();}}
+function showQuizResult(){let score=quiz.reduce((s,q,i)=>s+(quizAnswers[i]===q.a?1:0),0),pct=Math.round(score/quiz.length*100),cat=pct<50?'Perlu Latihan':pct<70?'Cukup':pct<90?'Baik':'Sangat Baik';let result=document.getElementById('quizResult');result.classList.remove('hide');result.innerHTML=`<h3>Hasil evaluasi: ${score}/${quiz.length} (${pct}%)</h3><p><strong>Kategori: ${cat}</strong></p><p>${pct<50?'Ulangi materi tombol peramban, perbedaan peramban dan mesin pencari, kata kunci, serta pemeriksaan sumber.':pct<70?'Ulangi materi yang jawabannya belum tepat, terutama fungsi peramban dan strategi pencarian.':pct<90?'Bagus! Tinjau kembali soal yang belum tepat dan baca ulang bagian terkait.':'Luar biasa! Pertahankan kebiasaan memeriksa sumber sebelum membagikan informasi.'}</p>`;document.getElementById('quizRestart').classList.remove('hide');document.getElementById('quizFinish').disabled=false;document.getElementById('nextQuizBtn').disabled=true;document.getElementById('checkQuizBtn').disabled=true;}
+startQuiz();
+function saveReflection(){let data=['Hal baru yang kupelajari: '+document.getElementById('ref1').value,'Bagian yang masih sulit: '+document.getElementById('ref2').value,'Rencanaku saat mencari informasi di internet: '+document.getElementById('ref3').value].join('\n\n');if(!data.replace(/[^:\n]/g,'').trim()&&false)return;let blob=new Blob([data],{type:'text/plain;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='refleksi-mpi-informatika.txt';a.click();URL.revokeObjectURL(url);let fb=document.getElementById('reflectionFeedback');fb.classList.remove('hide');fb.textContent='Teks refleksi disiapkan untuk disimpan sebagai file.';}
+function restartAll(){opened.clear();document.querySelectorAll('[data-hot]').forEach(b=>b.classList.remove('opened'));document.getElementById('hotFeedback').textContent='Pilih salah satu tombol peramban untuk melihat penjelasannya.';document.getElementById('hotCount').textContent='0 dari 5';document.getElementById('browserNext').disabled=true;document.querySelectorAll('#introChoices button').forEach(b=>b.classList.remove('selected'));document.getElementById('introFeedback').classList.add('hide');document.getElementById('introNext').disabled=true;resetSort();document.querySelectorAll('.flip-card button').forEach(b=>{b.classList.remove('flipped');let t=b.querySelector('strong')?.textContent||'';let name=t.replace(/^[^A-Za-z0-9]+/,'');b.innerHTML='<strong>'+t+'</strong><span>Klik untuk membalik</span>';});['r1','r2','r3'].forEach(id=>document.getElementById(id).textContent='');document.querySelectorAll('[data-question] button').forEach(b=>b.classList.remove('selected'));document.querySelectorAll('[id$="fb"]').forEach(x=>{if(x.id.startsWith('kw')||x.id.startsWith('op'))x.textContent='';});document.querySelectorAll('input[name="cred"]').forEach(x=>x.checked=false);document.getElementById('credReason').value='';document.getElementById('credFeedback').classList.add('hide');['ref1','ref2','ref3'].forEach(id=>document.getElementById(id).value='');document.getElementById('reflectionFeedback').classList.add('hide');startQuiz();go(0);}
+</script>
+</body></html>
